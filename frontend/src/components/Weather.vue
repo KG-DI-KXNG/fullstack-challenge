@@ -37,7 +37,8 @@
                     </td>
                     <td>
                       <span class="badge badge-dot mr-4">
-                        <i class="bg-warning"></i> pending
+                        <!-- <i class="bg-warning"></i>  -->
+                        <img :src="weather[index] ? `../animated/${weather[index].weather[0].icon}.svg` : 'dasd'" alt="">
                       </span>
                     </td>
                     <td class="text-right">
@@ -57,31 +58,6 @@
                 </tbody>
               </table>
             </div>
-            <div class="card-footer py-4">
-              <nav aria-label="...">
-                <ul class="pagination justify-content-end mb-0">
-                  <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">
-                      <i class="fas fa-angle-left"></i>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                  </li>
-                  <li class="page-item active">
-                    <a class="page-link" href="#">1</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">
-                      <i class="fas fa-angle-right"></i>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
           </div>
         </div>
       </div>
@@ -92,7 +68,7 @@
         <div class="modal fade custom-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <button type="button" class="close" data-dismiss="myModal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal( )">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <div class="modal_header2">
@@ -106,23 +82,66 @@
                 </div>
                 <div class="modal-body">
                     <div class="agent_title_head text-center">
-                        <h3>{{this.selected.user.name}}</h3>
+                        <h3>{{this.selected.user.name ?? 'd'}}</h3>
                         <h5>Welcome Back</h5>
                     </div>
                     <div class="agent_form_log">
-                        <div class="ageht_form_input_group">
-                            <input type="text" class="form-control form-group" placeholder="Email Or Username" />
-                            <span><i class="fas fa-user-tie"></i> </span>
+                      <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col" ></th>
+                  </tr>
+                </thead>
+                <tbody v-if="selected.user && selected.weather">
+
+                  <tr >
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">Weather Type</span>
                         </div>
-                        <div class="ageht_form_input_group">
-                            <input type="password" class="form-control form-group" placeholder="Password" />
-                            <span><i class="fas fa-lock"></i></span>
+                      </div>
+                    </th>
+                    <td>
+                      {{selected.weather.weather[0].main}}
+                    </td>
+                
+                   
+                  </tr>
+                  <tr >
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">Wind Speed</span>
                         </div>
-                       <p class="text-right"><a target="_blank" href="forgot-password.htm">Forgot Password</a></p>
+                      </div>
+                    </th>
+                    <td>
+                      {{selected.weather.wind.speed}}
+                    </td>
+                
+                   
+                  </tr>
+                  <tr >
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">Descrition</span>
+                        </div>
+                      </div>
+                    </th>
+                    <td>
+                      {{selected.weather.weather[0].description}}
+                    </td>
+                
+                   
+                  </tr>
+
+                </tbody>
+              </table>
                     </div>
-                    <div class="agent_log_btn_sec text-center">
-                        <a href="#" class="aget_log_btn">Login</a>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -161,6 +180,9 @@ export default {
           this.selected.user = this.data.users[i]
           this.selected.weather = this.weather[i]
             $('#myModal').modal('show')
+        },
+        closeModal(){
+          $('#myModal').modal('hide')
         }
     },
     created() {
@@ -194,10 +216,10 @@ export default {
 .modal-content button {
     position: absolute;
     right: 0px;
-    top: -29px;
-    font-size: 30px;
-    color: #fff !important;
-    text-shadow: none;
+    top: -2px;
+    /* font-size: 30px; */
+    /* color: #fff !important; */
+    /* text-shadow: none; */
 }
 
 .modal-content button:focus {
